@@ -16,7 +16,6 @@ import sys
 import lxml.etree
 import yaml
 
-
 __VERSION__ = "0.1.1"
 
 
