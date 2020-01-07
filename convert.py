@@ -17,6 +17,9 @@ import lxml.etree
 import yaml
 
 
+__VERSION__ = "0.1.0"
+
+
 def main():
     '''
     Checks for command-line arguments and then performs the requested conversion,
