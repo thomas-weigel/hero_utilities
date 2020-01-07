@@ -17,7 +17,7 @@ import lxml.etree
 import yaml
 
 
-__VERSION__ = "0.1.0"
+__VERSION__ = "0.1.1"
 
 
 def main():
@@ -78,17 +78,22 @@ def xml_output(data):
 def xml_createnode(tag, data):
     'Recursively creates a node and any subnodes from a tagname and dictionary.'
     node = lxml.etree.Element(tag)
-    for category in data:
-        if category == 'text':
-            node.text = data[category]
-        elif category == 'attributes':
-            for key in data[category]:
-                node.attrib[key] = data[category][key]
-        elif category == 'nodes':
-            for subdata in data[category]:
-                tag = list(subdata.keys())[0]
-                subnode = xml_createnode(tag, subdata[tag])
-                node.append(subnode)
+    if type(data) is str:
+        node.text = data
+    else:
+        for category in data:
+            if category == 'attributes':
+                for key in data[category]:
+                    node.attrib[key] = data[category][key]
+            elif category == 'nodes':
+                for subdata in data[category]:
+                    tag = list(subdata.keys())[0]
+                    subnode = xml_createnode(tag, subdata[tag])
+                    node.append(subnode)
+            else:
+                raise ValueError(
+                    f"Unexpected key '{category}', containing {data[category]}"
+                    )
 
     return node
 
@@ -96,19 +101,24 @@ def xml_createnode(tag, data):
 def xml_parsechild(node):
     'Recursively converts an XML node into a dictionary.'
     data = {}
-    if str(node.text).strip():  # has text other than pure whitespace
-        if node.text is not None:
-            data['text'] = ' '.join(str(node.text).split())
 
-    if len(node.attrib.keys()):  # has attributes
-        data['attributes'] = {key:str(node.attrib[key]) for key in node.attrib}
+    # HDT nodes with text in them are rare and are always text-only
+    if node.text is not None and str(node.text).strip():  # has actual text
+        data = ' '.join(str(node.text).split())
+        if len(node.attrib.keys()) or len(node):
+            raise ValueError(
+                f"unexpected text in {node.tag}:\n  attrib: {node.attrib}\n  children: {len(node)}"
+                )
+    else:  # without text, we look at other things.
+        if len(node.attrib.keys()):  # has attributes
+            data['attributes'] = {key:str(node.attrib[key]) for key in node.attrib}
 
-    if len(node):  # has children
-        children = []
-        for child in node:
-            children.append({child.tag: xml_parsechild(child)})
+        if len(node):  # has children
+            children = []
+            for child in node:
+                children.append({child.tag: xml_parsechild(child)})
 
-        data['nodes'] = children
+            data['nodes'] = children
 
     return data
 
