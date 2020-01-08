@@ -146,7 +146,8 @@ def hdt_createnode(tag, data):
     if type(data) is str:
         node.text = data
     else:
-        node.attrib.update(data.pop(0)['attributes'])
+        if len(data):
+            node.attrib.update(data.pop(0)['attributes'])
 
         for child in data:
             tag = list(child.keys())[0]
@@ -158,7 +159,7 @@ def hdt_createnode(tag, data):
 
 def hdt_parsechild(node):
     '''Recursively converts an HDT XML node into a data object.'''
-    data = [{'attributes': {}}]
+    data = []
 
     # HDT nodes with text in them are rare and are always text-only
     if node.text is not None and str(node.text).strip():  # has actual text
@@ -168,10 +169,12 @@ def hdt_parsechild(node):
                 f"unexpected text in {node.tag}:\n  attrib: {node.attrib}\n  children: {len(node)}"
                 )
     else:  # without text, we look at other things.
-        data[0]['attributes'].update(node.attrib)
-        for child in node:
-            tag = child.tag
-            data.append({tag: hdt_parsechild(child)})
+        if len(list(node.attrib.keys())) or len(node):
+            data.append({'attributes': {}})
+            data[0]['attributes'].update(node.attrib)
+            for child in node:
+                tag = child.tag
+                data.append({tag: hdt_parsechild(child)})
 
     return data
 
