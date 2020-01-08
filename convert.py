@@ -27,8 +27,8 @@ def main():
     '''
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input-format", "-i", default="xml", help="yaml or xml")
-    parser.add_argument("--output-format", "-o", default="yaml", help="yaml or xml")
+    parser.add_argument("--input-format", "-i", default="hdt", help="hdt|yaml|xml")
+    parser.add_argument("--output-format", "-o", default="yaml", help="hdt|yaml|xml")
     parser.add_argument("filename", help="the file to be used as input")
     args = parser.parse_args()
 
@@ -48,7 +48,7 @@ def main():
 
 
 def yaml_parse(filename):
-    'Turns a YAML file into a nested dictionary.'
+    'Turns a YAML file into a data object.'
     data = yaml.load(open(filename, 'r'), Loader=yaml.Loader)
     if len(data.keys())>1:
         data = {"TEMPLATE": data}
@@ -56,7 +56,7 @@ def yaml_parse(filename):
 
 
 def yaml_output(data):
-    'Turns a nested dictionary into YAML and returns that as a string.'
+    'Turns a data object into YAML and returns that as a string.'
     return yaml.dump(data)
 
 
@@ -125,7 +125,7 @@ def xml_parsechild(node):
 
 
 def hdt_parse(filename):
-    'Turns an HDT XML file into a nested dictionary with a cleaner output.'
+    'Turns an HDT XML file into a data object with a cleaner output.'
 
     root = lxml.etree.parse(open(filename, 'rb')).getroot()
     data = { root.tag: hdt_parsechild(root) }
@@ -133,7 +133,7 @@ def hdt_parse(filename):
 
 
 def hdt_output(data):
-    'Turns a nested dictionary into HDT XML and returns that as a string.'
+    'Turns a data object into HDT XML and returns that as a string.'
     tag = list(data.keys())[0]
     root = hdt_createnode(tag, data[tag])
 
@@ -141,7 +141,7 @@ def hdt_output(data):
 
 
 def hdt_createnode(tag, data):
-    'Recursively creates a node and any subnodes from a tagname and dictionary.'
+    'Recursively creates a node and any subnodes from a tagname and data object.'
     node = lxml.etree.Element(tag)
     if type(data) is str:
         node.text = data
