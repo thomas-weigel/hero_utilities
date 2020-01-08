@@ -13,6 +13,6 @@ Miscellaneous utility scripts for working with the HERO System RPG
     optional arguments:
       -h, --help            show this help message and exit
       --input-format INPUT_FORMAT, -i INPUT_FORMAT
-                            hdt|yaml|xml
+                            hdt|yaml
       --output-format OUTPUT_FORMAT, -o OUTPUT_FORMAT
-                            hdt|yaml|xml
+                            hdt|yaml
