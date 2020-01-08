@@ -48,7 +48,7 @@ def main():
 
 
 def yaml_parse(filename):
-    'Turns a YAML file into a data object.'
+    '''Turns a YAML file into a data object.'''
     data = yaml.load(open(filename, 'r'), Loader=yaml.Loader)
     if len(data.keys())>1:
         data = {"TEMPLATE": data}
@@ -56,12 +56,12 @@ def yaml_parse(filename):
 
 
 def yaml_output(data):
-    'Turns a data object into YAML and returns that as a string.'
+    '''Turns a data object into YAML and returns that as a string.'''
     return yaml.dump(data)
 
 
 def xml_parse(filename):
-    'Turns an XML file into a nested dictionary.'
+    '''Turns an XML file into a nested dictionary.'''
 
     root = lxml.etree.parse(open(filename, 'rb')).getroot()
     data = { root.tag: xml_parsechild(root) }
@@ -69,7 +69,7 @@ def xml_parse(filename):
 
 
 def xml_output(data):
-    'Turns a nested dictionary into XML and returns that as a string.'
+    '''Turns a nested dictionary into XML and returns that as a string.'''
     tag = list(data.keys())[0]
     root = xml_createnode(tag, data[tag])
 
@@ -77,7 +77,7 @@ def xml_output(data):
 
 
 def xml_createnode(tag, data):
-    'Recursively creates a node and any subnodes from a tagname and dictionary.'
+    '''Recursively creates a node and any subnodes from a tagname and dictionary.'''
     node = lxml.etree.Element(tag)
     if type(data) is str:
         node.text = data
@@ -100,7 +100,7 @@ def xml_createnode(tag, data):
 
 
 def xml_parsechild(node):
-    'Recursively converts an XML node into a dictionary.'
+    '''Recursively converts an XML node into a dictionary.'''
     data = {}
 
     # HDT nodes with text in them are rare and are always text-only
@@ -125,7 +125,7 @@ def xml_parsechild(node):
 
 
 def hdt_parse(filename):
-    'Turns an HDT XML file into a data object with a cleaner output.'
+    '''Turns an HDT XML file into a data object with a cleaner output.'''
 
     root = lxml.etree.parse(open(filename, 'rb')).getroot()
     data = { root.tag: hdt_parsechild(root) }
@@ -133,7 +133,7 @@ def hdt_parse(filename):
 
 
 def hdt_output(data):
-    'Turns a data object into HDT XML and returns that as a string.'
+    '''Turns a data object into HDT XML and returns that as a string.'''
     tag = list(data.keys())[0]
     root = hdt_createnode(tag, data[tag])
 
@@ -141,7 +141,7 @@ def hdt_output(data):
 
 
 def hdt_createnode(tag, data):
-    'Recursively creates a node and any subnodes from a tagname and data object.'
+    '''Recursively creates a node and any subnodes from a tagname and data object.'''
     node = lxml.etree.Element(tag)
     if type(data) is str:
         node.text = data
@@ -157,7 +157,7 @@ def hdt_createnode(tag, data):
 
 
 def hdt_parsechild(node):
-    'Recursively converts an HDT XML node into a data object.'
+    '''Recursively converts an HDT XML node into a data object.'''
     data = [{'attributes': {}}]
 
     # HDT nodes with text in them are rare and are always text-only
