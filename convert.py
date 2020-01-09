@@ -16,21 +16,15 @@ import sys
 import lxml.etree
 import yaml
 
-__VERSION__ = "0.1.1"
+__VERSION__ = "0.2.0"
 
 
-def main():
+def main(filename, input_format="hdt", output_format="yaml"):
     '''
     Checks for command-line arguments and then performs the requested conversion,
     returning the result as a string (which can then be piped into a file if desired,
     or just looked at.
     '''
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--input-format", "-i", default="hdt", help="hdt|yaml")
-    parser.add_argument("--output-format", "-o", default="yaml", help="hdt|yaml")
-    parser.add_argument("filename", help="the file to be used as input")
-    args = parser.parse_args()
 
     data = {
         "hdt": hdt_parse,
@@ -114,4 +108,10 @@ def hdt_parsechild(node):
 
 
 if __name__=='__main__':
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input-format", "-i", default="hdt", help="hdt|yaml")
+    parser.add_argument("--output-format", "-o", default="yaml", help="hdt|yaml")
+    parser.add_argument("filename", help="the file to be used as input")
+    args = parser.parse_args()
+
+    main(args.filename, args.input_format, args.output_format)
