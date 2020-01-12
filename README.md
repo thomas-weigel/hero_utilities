@@ -1,11 +1,11 @@
 # hero_utilities
 Miscellaneous utility scripts for working with the HERO System RPG
 
-## convert.py
+## hdt-convert
 
-    usage: convert.py [-h] [--input-format INPUT_FORMAT]
-                      [--output-format OUTPUT_FORMAT]
-                      filename
+    usage: hdt-convert [-h] [-i|--input-format INPUT_FORMAT]
+                       [-o|--output-format OUTPUT_FORMAT]
+                       filename
 
     positional arguments:
       filename              the file to be used as input
