@@ -14,8 +14,6 @@ import argparse
 
 from hero.parse import parse, serialize
 
-__VERSION__ = "0.2.0"
-
 
 def main(filename, input_format="hdt", output_format="yaml"):
     '''
