@@ -41,6 +41,8 @@ def hdt_createnode(tag, data):
     if type(data) is str:
         node.text = data
     else:
+        if data is None:
+            print(f"ERROR: {etree.tostring(node, pretty_print=True).decode()}")
         if len(data):
             node.attrib.update(data.pop(0)['attributes'])
 

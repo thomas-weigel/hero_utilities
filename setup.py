@@ -12,12 +12,12 @@ with open('LICENSE') as f:
 
 setup(
         name='hero',
-        version='0.2.0',
+        version='0.3.0',
         description='A collection of command line utilities for HERO system.',
         long_description=readme,
 
         packages=find_packages(),
-        scripts=['bin/hdt-convert',],
+        scripts=['bin/hd-convert',],
 
         author='Thomas Weigel',
         author_email='thomas.weigel@chantofwaves.com',
