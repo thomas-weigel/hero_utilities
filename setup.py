@@ -11,8 +11,8 @@ with open('LICENSE') as f:
 
 
 setup(
-        name='hero',
-        version='0.3.0',
+        name='hdconvert',
+        version='0.3.1',
         description='A collection of command line utilities for HERO system.',
         long_description=readme,
 

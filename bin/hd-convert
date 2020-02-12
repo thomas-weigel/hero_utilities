@@ -12,7 +12,7 @@ TAIL text, namespaces, and so on will all be lost. Do not use this with producti
 
 import argparse
 
-from hero.parse import parse, serialize
+from hdconvert.parse import parse, serialize
 
 
 def main(filename, input_format="hdt", output_format="yaml"):

@@ -4,7 +4,7 @@ from lxml import etree
 import yaml
 
 
-def parse(fileobj, input_format="hdt"):
+def parse(fileobj, input_format="hd"):
     '''
     Accepts a file or file-like object such as StringIO, and parses it according to the
     input_format to produce structured data.
@@ -12,7 +12,7 @@ def parse(fileobj, input_format="hdt"):
     Currently accepts the HeroDesigner HDT XML format and YAML.
     '''
 
-    if input_format == "hdt":
+    if input_format == "hd":
         root = etree.parse(fileobj).getroot()
         return { root.tag: hdt_parsenode(root) }
     elif input_format == "yaml":
@@ -27,7 +27,7 @@ def serialize(data, output_format="yaml"):
     Can currently produce YAML and the HeroDesigner HDT XML format.
     '''
 
-    if output_format == "hdt":
+    if output_format == "hd":
         tag = list(data.keys())[0]
         root = hdt_createnode(tag, data[tag])
         return etree.tostring(root, pretty_print=True).decode()
