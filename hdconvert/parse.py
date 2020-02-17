@@ -37,6 +37,7 @@ def serialize(data, output_format="yaml"):
 
 def hdt_createnode(tag, data):
     '''Recursively creates a node and any subnodes from a tagname and data object.'''
+    tag = tag.upper()
     node = etree.Element(tag)
     if type(data) is str:
         node.text = data
@@ -44,7 +45,12 @@ def hdt_createnode(tag, data):
         if data is None:
             print(f"ERROR: {etree.tostring(node, pretty_print=True).decode()}")
         if len(data):
-            node.attrib.update(data.pop(0)['attributes'])
+            attributes = data.pop(0)['attributes']
+            for key in attributes:
+                if tag=='TEMPLATE' and key in ['version', 'extends']:
+                    node.attrib[key] = attributes[key]
+                else:
+                    node.attrib[key.upper()] = attributes[key]
 
         if tag == 'LANGUAGE':
             similar = data.pop(0)['similar']
