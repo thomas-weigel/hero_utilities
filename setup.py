@@ -12,7 +12,7 @@ with open('LICENSE') as f:
 
 setup(
         name='hdconvert',
-        version='0.3.2',
+        version='0.3.3',
         description='A collection of command line utilities for HERO system.',
         long_description=readme,
 

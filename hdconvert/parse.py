@@ -53,13 +53,16 @@ def hdt_createnode(tag, data):
                     node.attrib[key.upper()] = attributes[key]
 
         if tag == 'LANGUAGE':
-            similar = data.pop(0)['similar']
-            for key in similar:
-                degree = key.upper() + 'POINTSIMILARITY'
-                for language in similar[key]:
-                    subnode = etree.Element(degree)
-                    subnode.text = language
-                    node.append(subnode)
+            try:
+                similar = data.pop(0)['similar']
+                for key in similar:
+                    degree = key.upper() + 'POINTSIMILARITY'
+                    for language in similar[key]:
+                        subnode = etree.Element(degree)
+                        subnode.text = language
+                        node.append(subnode)
+            except IndexError:  # No similar languages
+                pass
 
         for child in data:
             tag = list(child.keys())[0]
